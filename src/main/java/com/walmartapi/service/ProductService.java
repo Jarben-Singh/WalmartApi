@@ -15,6 +15,7 @@ public class ProductService {
     }
     public Product saveProduct(Product product) {
 
+        // Product -> Entity
         ProductEntity productEntity = new ProductEntity();
         productEntity.setDescription(product.getDescription());
         productEntity.setPrice(product.getPrice());
@@ -22,10 +23,13 @@ public class ProductService {
 
         ProductEntity savedEntity = productRepository.save(productEntity);
 
-        product.setName(savedEntity.getName());
-        product.setDescription(savedEntity.getDescription());
-        product.setPrice(savedEntity.getPrice());
-        product.setId(savedEntity.getId());
+        Product savedProduct = new Product();
+
+        // Entity ->
+        savedProduct.setName(savedEntity.getName());
+        savedProduct.setDescription(savedEntity.getDescription());
+        savedProduct.setPrice(savedEntity.getPrice());
+        savedProduct.setId(savedEntity.getId());
 
         // map POJO to entity
         // Call DB
