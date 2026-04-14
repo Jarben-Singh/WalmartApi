@@ -28,6 +28,7 @@ public class ProductService {
     }
 
     public Product getProductById(Long id) {
+
         Optional<ProductEntity> product = productRepository.findById(id);
 
         if(product.isEmpty()) {
@@ -35,6 +36,28 @@ public class ProductService {
         }
 
         return productMapper.mapToDto(product.get());
+    }
+
+    public Product updateProduct(Long id, Product product) {
+        Optional<ProductEntity> productEntity = productRepository.findById(id);
+
+        if (productEntity.isEmpty()) {
+            throw new NotFound("Product not found");
+        }
+        ProductEntity newProduct = productMapper.mapToEntity(product);
+        newProduct.setId(id);
+
+        ProductEntity updatedEntity = productRepository.save(newProduct);
+        return productMapper.mapToDto(updatedEntity);
+    }
+
+    public void deleteProductById(Long id) {
+        Optional<ProductEntity> productEntity = productRepository.findById(id);
+        if (productEntity.isEmpty()) {
+            throw new NotFound("Product not found");
+        }
+
+        productRepository.deleteById(id);
     }
 
 }
